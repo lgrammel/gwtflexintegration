@@ -36,10 +36,18 @@ public class SampleFlexWrapperWidget extends SWFWidget {
     }-*/;
 
     public static void onSwfApplicationComplete(String swfId) {
+	_registerSwfListeners(swfId);
 	swfWidgets.get(swfId).fireSWFWidgetReady();
     }
 
+    private static native void _registerSwfListeners(String swfID) /*-{
+        var swfWidget = $doc.getElementById(swfID);
+        swfWidget.addSendListener("_swf_on_text_sent");
+    }-*/;
+
     private static native void registerCallbackMethods() /*-{
+        $wnd._swf_on_text_sent=
+        @de.larsgrammel.blog.flexgwt.client.SampleFlexWrapperWidget::_onTextSent(Ljava/lang/String;Ljava/lang/String;)
         $wnd._swf_application_complete=
         @de.larsgrammel.blog.flexgwt.client.SampleFlexWrapperWidget::onSwfApplicationComplete(Ljava/lang/String;);
     }-*/;
@@ -56,6 +64,20 @@ public class SampleFlexWrapperWidget extends SWFWidget {
 	    SWFWidgetReadyHandler handler) {
 
 	return addHandler(handler, SWFWidgetReadyEvent.TYPE);
+    }
+
+    public HandlerRegistration addTextSentEventHandler(
+	    TextSentEventHandler handler) {
+
+	return addHandler(handler, TextSentEvent.TYPE);
+    }
+
+    public static void _onTextSent(String swfId, String text) {
+	swfWidgets.get(swfId).onTextSent(text);
+    }
+
+    private void onTextSent(String text) {
+	fireEvent(new TextSentEvent(this, text));
     }
 
     public void displayText(String text) {

@@ -29,28 +29,20 @@ import com.google.gwt.user.client.ui.TextBox;
 public class FlexGWTIntegration implements EntryPoint {
 
     public void onModuleLoad() {
-	addFlexWidgetAndGWTControls();
-	addFlexWidgetAndGWTControls();
-    }
-
-    private void addFlexWidgetAndGWTControls() {
-	final Button sendButton = new Button("Send");
-	final TextBox nameField = new TextBox();
-	nameField.setText("GWT User");
-
-	nameField.setEnabled(false);
-	sendButton.setEnabled(false);
+	final Button sendButton = new Button("Send to Flex");
+	final TextBox textField = new TextBox();
+	textField.setText("from GWT");
 
 	final SampleFlexWrapperWidget flexWidget = new SampleFlexWrapperWidget(
-		100, 50);
+		300, 50);
 
-	RootPanel.get().add(nameField);
+	RootPanel.get().add(textField);
 	RootPanel.get().add(sendButton);
 
 	RootPanel.get().add(flexWidget);
 
-	nameField.setFocus(true);
-	nameField.selectAll();
+	textField.setFocus(true);
+	textField.selectAll();
 
 	class MyHandler implements ClickHandler, KeyUpHandler {
 
@@ -65,20 +57,18 @@ public class FlexGWTIntegration implements EntryPoint {
 	    }
 
 	    private void displayTextInFlex() {
-		flexWidget.displayText(nameField.getText());
+		flexWidget.displayText(textField.getText());
 	    }
 	}
 
-	// Add a handler to send the name to the server
 	MyHandler handler = new MyHandler();
 	sendButton.addClickHandler(handler);
-	nameField.addKeyUpHandler(handler);
+	textField.addKeyUpHandler(handler);
 
-	flexWidget.addSWFWidgetReadyHandler(new SWFWidgetReadyHandler() {
+	flexWidget.addTextSentEventHandler(new TextSentEventHandler() {
 	    @Override
-	    public void onSWFWidgetReady(SWFWidgetReadyEvent event) {
-		nameField.setEnabled(true);
-		sendButton.setEnabled(true);
+	    public void onTextSent(TextSentEvent event) {
+		textField.setText(event.getNewText());
 	    }
 	});
     }

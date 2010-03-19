@@ -16,6 +16,7 @@
 		private function init():void {
 			addEventListener(FlexEvent.APPLICATION_COMPLETE, onApplicationComplete);
 			addJSCallback("displayText", displayText);
+			addJSCallback("addSendListener", addSendListener);
 		}
 		
 		private function onApplicationComplete(event:FlexEvent):void {
@@ -34,6 +35,12 @@
 			}
 	    } 
 	    
+		public function addSendListener(jsFunctionName:String):void {
+			sendButton.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void {
+				ExternalInterface.call(jsFunctionName, swfID, textWidget.text);				
+			});
+		}
+	    
 		public function get swfID():String {
 			return Application.application.parameters.swfid;
 		}
@@ -41,6 +48,7 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Text id="textWidget" width="100%"/>
+	<mx:Button id="sendButton" x="200" width="80" label="Send"/>
+	<mx:TextInput id="textWidget" x="0" width="200"/>
 	
 </mx:Application>
