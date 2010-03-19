@@ -1,0 +1,5 @@
+NOTICE
+
+gwt2swf is licensed under the APACHE License, 2.0.
+
+It is available at http://code.google.com/p/gwt2swf/

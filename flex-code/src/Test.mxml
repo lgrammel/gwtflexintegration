@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute" creationComplete="init()"
+	backgroundColor="0xffffff" paddingBottom="0" paddingLeft="0" 
+	paddingRight="0" paddingTop="0">
+	
+	<mx:Script>
+		<![CDATA[
+		
+		import mx.events.FlexEvent;
+
+		public function displayText(text:String):void {
+			textWidget.text = text;
+		}		
+			
+		private function init():void {
+			addEventListener(FlexEvent.APPLICATION_COMPLETE, onApplicationComplete);
+			addJSCallback("displayText", displayText);
+		}
+		
+		private function onApplicationComplete(event:FlexEvent):void {
+				callLater(function():void {
+					ExternalInterface.call("_swf_application_complete", swfID);
+				});
+			}
+		
+		public static function addJSCallback(jsFunctionName:String, flexFunction:Function):void {
+	    	try {
+	    		if (ExternalInterface.available) {
+					ExternalInterface.addCallback(jsFunctionName, flexFunction);
+	    		}
+			} catch (error:SecurityError) {
+				trace("Couldn't add javascript callback: " + error);
+			}
+	    } 
+	    
+		public function get swfID():String {
+			return Application.application.parameters.swfid;
+		}
+
+		]]>
+	</mx:Script>
+	
+	<mx:Text id="textWidget" width="100%"/>
+	
+</mx:Application>
