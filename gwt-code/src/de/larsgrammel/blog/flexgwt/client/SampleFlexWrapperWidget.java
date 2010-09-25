@@ -47,9 +47,9 @@ public class SampleFlexWrapperWidget extends SWFWidget {
 
     private static native void registerCallbackMethods() /*-{
         $wnd._swf_on_text_sent=
-        @de.larsgrammel.blog.flexgwt.client.SampleFlexWrapperWidget::_onTextSent(Ljava/lang/String;Ljava/lang/String;)
+        $entry(@de.larsgrammel.blog.flexgwt.client.SampleFlexWrapperWidget::_onTextSent(Ljava/lang/String;Ljava/lang/String;));
         $wnd._swf_application_complete=
-        @de.larsgrammel.blog.flexgwt.client.SampleFlexWrapperWidget::onSwfApplicationComplete(Ljava/lang/String;);
+        $entry(@de.larsgrammel.blog.flexgwt.client.SampleFlexWrapperWidget::onSwfApplicationComplete(Ljava/lang/String;));
     }-*/;
 
     public SampleFlexWrapperWidget(int width, int height) {
